@@ -1,0 +1,1 @@
+aws ec2 describe-instances --query "Reservations[*].Instances[*].{Instance:InstanceId,IP:PublicIpAddress,HostName:Tags[?Key=='hostname']|[0].Value}"
