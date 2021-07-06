@@ -1,0 +1,37 @@
+[web]
+    web01
+    web02
+    ec2web01
+    ec2web02
+
+[api]
+    api01
+    api02
+    ec2api01
+    ec2api02
+
+[east]
+    web01
+    api01
+
+[west]
+    web02
+    api02
+
+[central]
+    ec2web01
+    ec2web02
+    ec2api01
+    ec2api02
+
+[cloud]
+    ec2web01
+    ec2web02
+    ec2api01
+    ec2api02
+
+[virtualbox]
+    web01
+    api01
+    web02
+    api02
