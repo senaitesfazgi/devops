@@ -16,3 +16,23 @@
       apt:
         name: gunicorn
         state: present
+
+    - name: Ensure servirces are running 
+      service:
+        name: nginx 
+        state: started
+
+    - name: Creates directory
+      file:
+        path: "/var/www/todo"
+        state: directory
+
+    - name: Create the application directory 
+      copy:
+        dest: "/var/www/todo/index.html"
+        content: "<!DOCTYPE html><html><body>TODO App</body></html>"
+
+    - name: Configure Gunicorn App 
+      gunicorn:
+        app: todo
+        chdir: "/var/www/todo"
