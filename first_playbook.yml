@@ -1,5 +1,7 @@
+---
+- hosts: all
 
-  task:
+  tasks:
 
     - name: first command
       action: ping 
