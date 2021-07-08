@@ -3,5 +3,9 @@
 
   tasks:
 
-    - name: first command
+    - name: Ping Command 
       action: ping 
+
+    - name: Sudo Command 
+      shell:
+        cmd: sudo whoami
