@@ -1,4 +1,6 @@
 # Byte-compiled / optimized / DLL files
+ansible_key
+
 __pycache__/
 *.py[cod]
 *$py.class
