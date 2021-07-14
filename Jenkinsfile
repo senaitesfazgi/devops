@@ -2,17 +2,17 @@ pipeline {
    agent any
    
    environment {
-       DEMO='1.3'
+       COURSE='Calgary DevOps'
    }
 
    stages {
       stage('stage-1') {
          steps {
-            echo "This is build number $BUILD_NUMBER of demo $DEMO"
+            echo "This is build number $BUILD_NUMBER of demo $COURSE"
             sh '''
                echo "Using a multi-line shell step"
-               chmod +x test.sh
-               ./test.sh
+               chmod +x test_script.sh
+               ./test_script.sh
             '''
          }
       }
