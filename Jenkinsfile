@@ -13,6 +13,12 @@ pipeline {
       }
     }
 
+    stage('') {
+      steps {
+        ansiblePlaybook(playbook: 'second_playbook.yml', become: true, inventory: 'inventory')
+      }
+    }
+
   }
   environment {
     COURSE = 'Calgary DevOps'
