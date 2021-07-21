@@ -1,7 +1,17 @@
 pipeline {
   agent any
   stages {
-    stage('stage-1') {
+    state('Audit Tool') {
+      steps {
+         sh '''
+            git --version
+            ansible --version
+            node --version
+            npm --version
+         '''
+      }
+    }
+    stage('testing') {
       steps {
         echo "This is build number $BUILD_NUMBER of $COURSE"
         sh '''
@@ -10,12 +20,6 @@ pipeline {
                ./test_script.sh
             '''
         sleep 3
-      }
-    }
-
-    stage('') {
-      steps {
-        ansiblePlaybook(playbook: 'second_playbook.yml', become: true, inventory: 'inventory')
       }
     }
 
