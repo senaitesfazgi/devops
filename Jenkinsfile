@@ -12,7 +12,15 @@ pipeline {
          '''
       }
     }
-    stage('testing') {
+    stage('Get Source') {
+      steps {
+        echo "Get Source Code"
+        sh '''
+          git pull origin main
+        '''
+      }
+    }
+    stage('Testing script') {
       steps {
         echo "This is build number $BUILD_NUMBER of $COURSE"
         sh '''
