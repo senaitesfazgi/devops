@@ -1,5 +1,9 @@
 pipeline {
   agent any
+  environment {
+    COURSE = 'Calgary DevOps'
+    BRANCH = 'main'
+  }
   stages {
     stage('Audit Tool') {
       steps {
@@ -9,31 +13,40 @@ pipeline {
             ansible --version
             node --version
             npm --version
+            ng --version
          '''
+         echo "Workspace: ${WORKSPACE}"
+         echo "Workspace Temp: ${WORKSPACE_TMP}"
       }
     }
     stage('Get Source') {
       steps {
-        echo "Get Source Code"
-        sh '''
-          git pull origin main
-        '''
+        sh 'git pull origin "${BRANCH}"'
       }
     }
-    stage('Testing script') {
+    stage('Install Front-End Packages') {
       steps {
-        echo "This is build number $BUILD_NUMBER of $COURSE"
-        sh '''
-               echo "Using a multi-line shell step"
-               chmod +x test_script.sh
-               ./test_script.sh
-            '''
-        sleep 3
+        sh 'cd "${WORKSPACE}/conduit-ui"'
+        sh 'npm install'
       }
     }
-
-  }
-  environment {
-    COURSE = 'Calgary DevOps'
+    stage('Lint Front-End') {
+      steps {
+        sh 'cd "${WORKSPACE}/conduit-ui"'
+        sh 'ng lint'
+      }
+    }
+    stage('Test Front-End') {
+      steps {
+        sh 'cd "${WORKSPACE}/conduit-ui"'
+        sh 'ng test'
+      }
+    }
+    stage('Compile Front-End') {
+      steps {
+        sh 'cd "${WORKSPACE}/conduit-ui"'
+        sh 'ng test'
+      }
+    }
   }
 }
