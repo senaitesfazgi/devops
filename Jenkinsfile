@@ -26,26 +26,30 @@ pipeline {
     }
     stage('Install Front-End Packages') {
       steps {
-        sh 'cd "${WORKSPACE}/conduit-ui"'
-        sh 'npm install'
+        dir("${WORKSPACE}/conduit-ui") {
+		  sh 'npm install'
+        }
       }
     }
     stage('Lint Front-End') {
       steps {
-        sh 'cd "${WORKSPACE}/conduit-ui"'
-        sh 'ng lint'
+        dir("${WORKSPACE}/conduit-ui") {
+          sh 'ng lint'
+        }
       }
     }
     stage('Test Front-End') {
       steps {
-        sh 'cd "${WORKSPACE}/conduit-ui"'
-        sh 'ng test'
+        dir("${WORKSPACE}/conduit-ui") {
+		  sh 'ng test'
+        }
       }
     }
     stage('Compile Front-End') {
       steps {
-        sh 'cd "${WORKSPACE}/conduit-ui"'
-        sh 'ng test'
+        dir("${WORKSPACE}/conduit-ui") {
+		  sh 'ng test'
+        }
       }
     }
   }
