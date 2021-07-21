@@ -1,9 +1,10 @@
 pipeline {
   agent any
   stages {
-    state('Audit Tool') {
+    stage('Audit Tool') {
       steps {
-         sh '''
+        echo "Audit all tools versions" 
+        sh '''
             git --version
             ansible --version
             node --version
