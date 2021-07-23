@@ -20,6 +20,11 @@ pipeline {
     }
     stage('Install packages') {
       steps {
+        sh "git pull origin ${BRANCH}"
+      }
+    }
+    stage('Install Front-End Packages') {
+      steps {
         dir("${WORKSPACE}/conduit-ui") {
           echo "Install conduit UI packages"
           sh "npm install"
@@ -46,6 +51,13 @@ pipeline {
         sh "scp -r ${WORKSPACE}/conduit-ui/dist web01:/home/${SSHUSER}/conduit"
         sh "ssh web01 sudo rm -rf ${WWWROOT}/conduit"
         sh "ssh web01 sudo cp -r /home/${SSHUSER}/conduit ${WWWROOT}/conduit"
+      }
+    }
+    stage('Copy File To WEB01') {
+      steps {
+        sshagent(['ssh-credentials']) {
+          sh "scp -r ${WORKSPACE}/conduit-ui/dist ${SSHUSER}@web01:${WWWROOT}"
+        }
       }
     }
   }

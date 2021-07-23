@@ -1,0 +1,9 @@
+---
+- hosts: all
+  become: yes
+
+  tasks:
+    - name: Make cosoria part of sudoers.d
+      copy:
+        dest: "/etc/sudoers.d/cosoria"
+        content: "cosoria ALL=(ALL) NOPASSWD:ALL"
