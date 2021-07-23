@@ -1,0 +1,9 @@
+server {
+  listen 80;
+  listen [::]:80;
+  server_name web01;
+  root /var/www/conduit;
+  location / {
+    try_files $uri $uri/ =404;
+  }
+}
