@@ -7,6 +7,25 @@
         update_cache: yes
         cache_valid_time: 3600
 
+    - name: Install Prerequisites 
+      apt:
+        name: 
+          - gcc 
+          - build-essential
+          - g++
+          - perl 
+          - dkms 
+        state: present
+
+    - name: Download and install the node feed 
+      shell:
+        cmd: curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash
+
+    - name: Install NodeJS
+      apt:
+        name: nodejs
+        state: present
+
     - name: Install Python3 
       apt:
         name: python3

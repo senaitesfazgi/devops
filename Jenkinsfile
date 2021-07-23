@@ -53,12 +53,5 @@ pipeline {
         sh "ssh web01 sudo cp -r /home/${SSHUSER}/conduit ${WWWROOT}/conduit"
       }
     }
-    stage('Copy File To WEB01') {
-      steps {
-        sshagent(['ssh-credentials']) {
-          sh "scp -r ${WORKSPACE}/conduit-ui/dist ${SSHUSER}@web01:${WWWROOT}"
-        }
-      }
-    }
   }
 }
