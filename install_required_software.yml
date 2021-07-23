@@ -1,7 +1,26 @@
 --- 
-- hosts: all
+- hosts: virtualbox
 
   tasks:
+    - name: Install Prerequisites 
+      apt:
+        name: 
+          - gcc 
+          - build-essential
+          - g++
+          - perl 
+          - dkms 
+        state: present
+
+    - name: Download and install the node feed 
+      shell:
+        cmd: curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash
+
+    - name: Install NodeJS
+      apt:
+        name: nodejs
+        state: present
+    
     - name: Install Python3 
       apt:
         name: python3
@@ -17,22 +36,22 @@
         name: gunicorn
         state: present
 
-    - name: Ensure servirces are running 
+    - name: Ensure NGINX servirce is running 
       service:
         name: nginx 
         state: started
 
-    - name: Creates directory
-      file:
-        path: "/var/www/todo"
-        state: directory
+    # - name: Creates directory
+    #   file:
+    #     path: "/var/www/online"
+    #     state: directory
 
-    - name: Create the application directory 
+    - name: Create test file
       copy:
-        dest: "/var/www/todo/index.html"
-        content: "<!DOCTYPE html><html><body>TODO App</body></html>"
+        dest: "/var/www/html/index.html"
+        content: "<!DOCTYPE html><html><body>online</body></html>"
 
-    - name: Configure Gunicorn App 
-      gunicorn:
-        app: todo
-        chdir: "/var/www/todo"
+    # - name: Configure Gunicorn App 
+    #   gunicorn:
+    #     app: todo
+    #     chdir: "/var/www/todo"

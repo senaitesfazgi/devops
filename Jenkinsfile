@@ -3,6 +3,8 @@ pipeline {
   environment {
     COURSE = 'Calgary DevOps'
     BRANCH = 'main'
+    WWWROOT = '/var/www/html'
+    SSHUSER = 'cosoria'
   }
   stages {
     stage('Audit Tool') {
@@ -21,7 +23,7 @@ pipeline {
     }
     stage('Get Source') {
       steps {
-        sh 'git pull origin "${BRANCH}"'
+        sh "git pull origin ${BRANCH}"
       }
     }
     stage('Install Front-End Packages') {
@@ -41,15 +43,22 @@ pipeline {
     stage('Test Front-End') {
       steps {
         dir("${WORKSPACE}/conduit-ui") {
-		  echo "Test can not be run cuz it tries to lauch the browser"
-		  echo "sh 'npm run test'"
+		      echo "Test can not be run cuz it tries to lauch the browser"
+		      echo "sh 'npm run test'"
         }
       }
     }
     stage('Compile Front-End') {
       steps {
         dir("${WORKSPACE}/conduit-ui") {
-		  sh 'npm run build'
+		      sh "npm run build"
+        }
+      }
+    }
+    stage('Copy File To WEB01') {
+      steps {
+        sshagent(['ssh-credentials']) {
+          sh "scp -r ${WORKSPACE}/conduit-ui/dist ${SSHUSER}@web01:${WWWROOT}"
         }
       }
     }
