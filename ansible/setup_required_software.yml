@@ -1,0 +1,67 @@
+--- 
+- hosts: all
+
+  tasks:
+    - name: Update apt cache 
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+
+    - name: Install Python3 
+      apt:
+        name: python3
+        state: present
+
+    - name: Install Nginx
+      apt:
+        name: nginx
+        state: present
+
+    - name: Install Gunicorns
+      apt:
+        name: gunicorn
+        state: present
+
+    - name: Ensure servirces are running 
+      service:
+        name: nginx 
+        state: started
+
+    - name: "create conduit www directory"
+      file:
+        path: /var/www/conduit
+        state: directory
+        mode: '0775'
+        owner: "jenkins"
+        group: "jenkins"
+
+    - name: Create the application directory 
+      copy:
+        dest: "/var/www/conduit/index.html"
+        content: "<!DOCTYPE html><html><body>TODO App</body></html>"
+
+    - name: delete default nginx site
+      file:
+        path: /etc/nginx/sites-enabled/default
+        state: absent
+      notify: restart nginx
+
+    - name: copy nginx site.conf
+      template:
+        src: site.conf.j2
+        dest: /etc/nginx/sites-enabled/conduit
+        owner: root
+        group: root
+        mode: '0644'
+      notify: restart nginx
+
+  handlers:
+    - name: restart nginx
+      service:
+        name: nginx
+        state: restarted
+
+   
+    
+
+    

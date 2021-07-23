@@ -3,54 +3,49 @@ pipeline {
   environment {
     COURSE = 'Calgary DevOps'
     BRANCH = 'main'
+    WWWROOT = '/var/www/html'
+    SSHUSER = 'jenkins'
   }
   stages {
-    stage('Audit Tool') {
+    stage('Audit Tools') {
       steps {
-        echo "Audit all tools versions" 
-        sh '''
-            git --version
-            ansible --version
-            node --version
-            npm --version
-            ng --version
-         '''
-         echo "Workspace: ${WORKSPACE}"
-         echo "Workspace Temp: ${WORKSPACE_TMP}"
+        echo "Audit all tools to be use on this pipeline ${BRANCH}"
+        sh "git --version"
+        sh "node --version"
+        sh "npm --version"
+        sh "ng --version"
+        sh "ansible --version"
+        echo "Workspace Folder: ${WORKSPACE}"
       }
     }
-    stage('Get Source') {
-      steps {
-        sh 'git pull origin "${BRANCH}"'
-      }
-    }
-    stage('Install Front-End Packages') {
+    stage('Install packages') {
       steps {
         dir("${WORKSPACE}/conduit-ui") {
-		  sh 'npm install'
+          echo "Install conduit UI packages"
+          sh "npm install"
         }
       }
     }
-    stage('Lint Front-End') {
+    stage('Run linting') {
       steps {
         dir("${WORKSPACE}/conduit-ui") {
-          sh 'npm run lint'
+          echo "npm run lint"
         }
       }
     }
-    stage('Test Front-End') {
+    stage('Build UI') {
       steps {
         dir("${WORKSPACE}/conduit-ui") {
-		  echo "Test can not be run cuz it tries to lauch the browser"
-		  echo "sh 'npm run test'"
+          sh "npm run build"
         }
       }
     }
-    stage('Compile Front-End') {
+    stage('Deploy app to WEB01') {
       steps {
-        dir("${WORKSPACE}/conduit-ui") {
-		  sh 'npm run build'
-        }
+        sh "ssh web01 rm -rf /home/${SSHUSER}/conduit"
+        sh "scp -r ${WORKSPACE}/conduit-ui/dist web01:/home/${SSHUSER}/conduit"
+        sh "ssh web01 sudo rm -rf ${WWWROOT}/conduit"
+        sh "ssh web01 sudo cp -r /home/${SSHUSER}/conduit ${WWWROOT}/conduit"
       }
     }
   }
