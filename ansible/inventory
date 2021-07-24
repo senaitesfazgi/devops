@@ -1,5 +1,5 @@
 [all:vars]
-    domain: web01
+    # domain: web01
     # ansible_user: ubuntu
     # ansible_ssh_private_key_file: ~/.ssh/id_rsa
     # ansible_sudo_pass: qwerty

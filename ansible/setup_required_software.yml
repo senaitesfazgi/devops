@@ -1,5 +1,5 @@
 --- 
-- hosts: all
+- hosts: virtualbox
 
   tasks:
     - name: Update apt cache 
@@ -57,7 +57,7 @@
     - name: Create the application directory 
       copy:
         dest: "/var/www/conduit/index.html"
-        content: "<!DOCTYPE html><html><body>TODO App</body></html>"
+        content: "<!DOCTYPE html><html><body>Conduit App</body></html>"
 
     - name: delete default nginx site
       file:
