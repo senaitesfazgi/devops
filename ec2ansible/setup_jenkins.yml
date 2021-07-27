@@ -1,0 +1,47 @@
+--- 
+- hosts: all
+
+  tasks:
+    - name: Update apt cache 
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+
+    - name: Install Prerequisites 
+      apt:
+        name: 
+          - gcc 
+          - build-essential
+          - g++
+          - perl 
+          - dkms 
+          - default-jre
+        state: present
+    
+    - name: Install Jenkins Source Keys 
+      shell:
+        cmd: wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo apt-key add -
+ 
+    - name: Install Jenkins Sources 
+      shell:
+        cmd: sudo sh -c 'echo deb http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
+
+    - name: Install Jenkins 
+      apt:
+        name: jenkins
+        state: present
+
+    - name: Restart Jenkins
+      service:
+        name: jenkins
+        state: restarted
+
+    - name: Open firewall ports 
+      shell: 
+        cmd: sudo ufw allow 8080
+
+    - name: Enable firewall
+      shell: 
+        cmd: sudo ufw enable
+
+
