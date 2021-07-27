@@ -11,8 +11,8 @@
     ec2api01
 
 [nodes]
-    web01
-    api01
+    ec2web01
+    ec2api01
 
 [localhost]
     ec2controller01
