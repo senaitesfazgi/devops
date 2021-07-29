@@ -5,7 +5,7 @@ pipeline {
     BRANCH = 'main'
     WWWROOT = '/var/www'
     SSHUSER = 'jenkins'
-    SSHKEY = '/var/lib/jenkins/.ssh/aws_ec2_key.pem'
+    SSHKEY = '/var/lib/jenkins/.ssh/first-key.pem'
   }
   stages {
     stage('Audit Tools') {
