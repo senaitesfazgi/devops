@@ -36,12 +36,14 @@
         name: jenkins
         state: restarted
 
-    - name: Open firewall ports 
-      shell: 
-        cmd: sudo ufw allow 8080
-
-    - name: Enable firewall
-      shell: 
-        cmd: sudo ufw enable
+    #  Do not run this command on the cloud VM it will mess up the configuration
+    # - name: Open firewall ports 
+    #   shell: 
+    #    cmd: sudo ufw allow 8080
+    
+    #  Do not run this command on the cloud VM it will mess up the configuration
+    # - name: Enable firewall
+    #   shell: 
+    #    cmd: sudo ufw enable
 
 

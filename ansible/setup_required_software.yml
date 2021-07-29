@@ -50,9 +50,9 @@
       file:
         path: /var/www/conduit
         state: directory
-        mode: '0775'
-        owner: "jenkins"
-        group: "jenkins"
+        # mode: '0775'
+        # owner: "jenkins"
+        # group: "jenkins"
 
     - name: Create the application directory 
       copy:
